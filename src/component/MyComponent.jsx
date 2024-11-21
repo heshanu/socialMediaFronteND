@@ -5,17 +5,15 @@ const MyComponent = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    console.log(process.env.TEST);
-    
-    const apiUrl = "http://127.0.0.1:8081/api/v1/user"
+    const apiUrl = process.env.REACT_APP_BACKEND_URL;
 
     if (!apiUrl) {
-      console.error('REACT_APP_BACKENDURL is not defined');
-      setError('REACT_APP_BACKENDURL is not defined');
+      console.error('Backend URL not found');
+      setError('Backend URL not found');
       return;
     }
 
-    fetch(`${apiUrl}/users`)
+    fetch(`${apiUrl}/employees`)
       .then((response) => {
         if (!response.ok) {
           return response.text().then(text => {
@@ -48,7 +46,8 @@ const MyComponent = () => {
             <h2>{user.firstName}</h2>
             <h2>{user.lastName}</h2>
             <h2>{user.email}</h2>
-            <h2>{user.password}</h2>
+            {/* Avoid logging sensitive information */}
+            {/* <h2>{user.password}</h2> */}
             <hr />
           </div>
         ))
